@@ -20,8 +20,13 @@
 
 enum planck_layers { _DVORAK, _LOWER, _RAISE, _MOVE };
 
-#define LOWER  MO(_LOWER)
-#define RAISE  MO(_RAISE)
+enum custom_keycodes {
+    ONE_SHOT_TILDE = SAFE_RANGE,
+};
+
+#define LOWER     MO(_LOWER)
+#define RAISE     MO(_RAISE)
+#define MOVE_Z    LT(_MOVE, LSFT(CH_Z))
 
 /* clang-format off */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -38,12 +43,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------'
      */
     [_DVORAK] = LAYOUT_planck_grid(
-        KC_TAB,  CH_QUOT,   CH_COMM, CH_DOT,  CH_P,  CH_Y,    CH_F,    CH_G,  CH_C,    CH_R,   CH_L,    CH_SLSH,
-        KC_ESC,  CH_A,      CH_O,    CH_E,    CH_U,  CH_I,    CH_D,    CH_H,  CH_T,    CH_N,   CH_S,    KC_BSPC,
-        KC_LSFT, CH_COLN,   CH_Q,    CH_J,    CH_K,  CH_X,    CH_B,    CH_M,  CH_W,    CH_V,   CH_Z,    KC_ENT,
-        KC_LCTL, TO(_MOVE), KC_LALT, KC_LGUI, LOWER, _______, KC_SPC,  RAISE, KC_RALT, KC_APP, KC_RCTL, _______
+        KC_TAB,  CH_QUOT, CH_COMM, CH_DOT,  CH_P,  CH_Y,    CH_F,    CH_G,  CH_C,    CH_R,   CH_L,    CH_SLSH,
+        KC_ESC,  CH_A,    CH_O,    CH_E,    CH_U,  CH_I,    CH_D,    CH_H,  CH_T,    CH_N,   CH_S,    KC_BSPC,
+        KC_LSFT, CH_COLN, CH_Q,    CH_J,    CH_K,  CH_X,    CH_B,    CH_M,  CH_W,    CH_V,   MOVE_Z,  RSFT_T(KC_ENTER),
+        KC_LCTL, _______, KC_LALT, KC_LGUI, LOWER, _______, KC_SPC,  RAISE, KC_RALT, KC_APP, KC_RCTL, _______
     ),
-
 
     /* Lower
      * ,-----------------------------------------------------------------------------------.
@@ -53,14 +57,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |------+------+------+------+------+------+------+------+------+------+------+------|
      * |      |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |Sht/Ent|
      * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * |      |      |      |      |      |     Bksp    |      |      |  F10 |  F11 |      |
+     * |      |      |      |      |      |     Bksp    |      |      |  F11 |  F12 |PrtScr|
      * `-----------------------------------------------------------------------------------'
      */
     [_LOWER] = LAYOUT_planck_grid(
         _______, CH_7,    CH_5,    CH_3,    CH_1,    CH_9,    CH_0,    CH_2,    CH_4,    CH_6,    CH_8,      _______,
         _______, CH_GRV,  CH_CIRC, CH_ACUT, CH_DIAE, XXXXXXX, XXXXXXX, XXXXXXX, CH_CCED, XXXXXXX, KC_INSERT, LALT(KC_BSPC),
         _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,    LSFT(KC_ENTER),
-        _______, _______, _______, _______, _______, _______, KC_BSPC, _______, _______, KC_F10,  KC_F11,    _______
+        _______, _______, _______, _______, _______, _______, KC_BSPC, _______, _______, KC_F10,  KC_F11,    KC_PSCR
     ),
 
     /* Raise
@@ -75,12 +79,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------'
      */
     [_RAISE] = LAYOUT_planck_grid(
-        CH_GRV,  CH_EXLM, CH_EXLM, CH_HASH, CH_DLR,  CH_LPRN, CH_RPRN, CH_AMPR, CH_ASTR, CH_PERC, CH_CIRC, _______,
-        CH_TILD, CH_AT,   CH_QUES, CH_PIPE, CH_LCBR, CH_LBRC, CH_RBRC, CH_RCBR, CH_BSLS, CH_MINS, CH_EQL,  KC_DEL,
-        CH_DEG,  CH_SCLN, XXXXXXX, XXXXXXX, XXXXXXX, CH_LABK, CH_LABK, XXXXXXX, XXXXXXX, CH_UNDS, CH_PLUS, LSFT(KC_ENTER),
-        _______, _______, _______, _______, _______, _______, KC_SPC,  _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
+        CH_GRV,         CH_DQUO, CH_EXLM, CH_HASH, CH_DLR,  CH_LPRN, CH_RPRN, CH_AMPR, CH_ASTR, CH_PERC, CH_CIRC, _______,
+        ONE_SHOT_TILDE, CH_AT,   CH_QUES, CH_PIPE, CH_LCBR, CH_LBRC, CH_RBRC, CH_RCBR, CH_BSLS, CH_MINS, CH_EQL,  KC_DEL,
+        CH_DEG,         CH_SCLN, XXXXXXX, XXXXXXX, XXXXXXX, CH_LABK, CH_RABK, XXXXXXX, XXXXXXX, CH_UNDS, CH_PLUS, LSFT(KC_ENTER),
+        _______,        _______, _______, _______, _______, _______, KC_SPC,  _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
     ),
-
 
     /* Movement layer
     * ,-------------------------------------------------------------------------------------.
@@ -101,3 +104,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case ONE_SHOT_TILDE:
+            if (record->event.pressed) {
+                // Single tap to send the tilde key
+                register_code(KC_ALGR);
+                register_code(CH_CIRC);
+                unregister_code(CH_CIRC);
+                unregister_code(KC_ALGR);
+                register_code(KC_SPC);
+                unregister_code(KC_SPC);
+            }
+            break;
+    }
+    return true;
+}
+
