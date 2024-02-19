@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, CH_7,    CH_5,    CH_3,    CH_1,    CH_9,    CH_0,    CH_2,    CH_4,    CH_6,    CH_8,      _______,
         _______, CH_GRV,  CH_CIRC, CH_ACUT, CH_DIAE, XXXXXXX, XXXXXXX, XXXXXXX, CH_CCED, XXXXXXX, KC_INSERT, LALT(KC_BSPC),
         _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,    LSFT(KC_ENTER),
-        _______, _______, _______, _______, _______, _______, KC_BSPC, _______, _______, KC_F10,  KC_F11,    KC_PSCR
+        _______, _______, _______, _______, _______, _______, KC_BSPC, _______, _______, KC_F11,  KC_F12,    KC_PSCR
     ),
 
     /* Raise
